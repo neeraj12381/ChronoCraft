@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}Chronocraft | Join The Elite Club{% endblock %}
+
+{% block content %}
+<style>
+    .auth-container {
+        min-height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+        padding: 40px 20px;
+    }
+
+    .auth-card {
+        background: #0a0a0a;
+        width: 100%;
+        max-width: 450px;
+        padding: 50px 40px;
+        border: 1px solid rgba(212, 175, 55, 0.2);
+        box-shadow: 0 25px 60px rgba(0,0,0,0.9);
+        text-align: center;
+        position: relative;
+    }
+
+    /* Top Decorative Line */
+    .auth-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 20%; width: 60%; height: 2px;
+        background: var(--gold, #d4af37);
+    }
+
+    .auth-card h2 {
+        font-family: 'Cinzel', serif;
+        color: #d4af37;
+        font-size: 26px;
+        letter-spacing: 6px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .subtitle {
+        color: #666;
+        font-size: 11px;
+        letter-spacing: 2px;
+        margin-bottom: 35px;
+        text-transform: uppercase;
+    }
+
+    .auth-form { text-align: left; }
+    
+    .form-row { margin-bottom: 20px; }
+
+    .auth-form label {
+        display: block;
+        color: #888;
+        font-size: 10px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+
+    /* Django Forms Input Styling */
+    .auth-form input {
+        width: 100%;
+        padding: 12px;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #222;
+        color: #fff;
+        outline: none;
+        box-sizing: border-box;
+        transition: 0.4s;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .auth-form input:focus {
+        border-bottom-color: #d4af37;
+        background: rgba(212, 175, 55, 0.03);
+    }
+
+    /* Form Help Text (Password rules) */
+    .helptext {
+        display: block;
+        color: #444;
+        font-size: 10px;
+        margin-top: 5px;
+        line-height: 1.4;
+    }
+
+    .signup-btn {
+        width: 100%;
+        background: #d4af37;
+        color: #000;
+        border: none;
+        padding: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        cursor: pointer;
+        margin-top: 30px;
+        transition: 0.5s;
+    }
+
+    .signup-btn:hover {
+        background: #fff;
+        letter-spacing: 5px;
+    }
+
+    .switch-auth {
+        margin-top: 30px;
+        font-size: 12px;
+        color: #555;
+        letter-spacing: 1px;
+    }
+
+    .switch-auth a {
+        color: #d4af37;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .errorlist {
+        color: #ff4d4d;
+        font-size: 11px;
+        list-style: none;
+        padding: 0;
+        margin: 5px 0;
+    }
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Join The Club</h2>
+        <p class="subtitle">Reserve Your Heritage</p>
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-row">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.help_text %}
+                        <span class="helptext">{{ field.help_text|safe }}</span>
+                    {% endif %}
+                    {% if field.errors %}
+                        {{ field.errors }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="signup-btn">Create Membership</button>
+        </form>
+
+        <div class="switch-auth">
+            Already have a place? <a href="{% url 'login' %}">Sign In</a>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+    <div id="msg-data-signup" style="display:none;">
+        {% for m in messages %}<span class="item">{{ m|escapejs }}</span>{% endfor %}
+    </div>
+    <script>
+        (function() {
+            const msgs = document.querySelectorAll('#msg-data-signup .item');
+            msgs.forEach(m => {
+                if(m.textContent.trim() !== "") {
+                    alert(m.textContent);
+                }
+            });
+        })();
+    </script>
+{% endif %}
+
+{% endblock %}

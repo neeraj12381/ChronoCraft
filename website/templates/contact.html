@@ -1,0 +1,209 @@
+{% extends 'base.html' %}
+
+{% block title %}Chronocraft | The Concierge Lucknow{% endblock %}
+
+{% block content %}
+<style>
+    /* --- LUXURY CONTACT PAGE STYLING --- */
+    .contact-page {
+        background: #050505;
+        color: #fff;
+        padding-top: 100px;
+        min-height: 100vh;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    .contact-header {
+        text-align: center;
+        padding: 60px 20px;
+    }
+
+    .contact-header h1 {
+        font-family: 'Cinzel', serif;
+        font-size: clamp(2.5rem, 6vw, 4rem);
+        letter-spacing: 18px;
+        color: #d4af37;
+        text-transform: uppercase;
+        margin-bottom: 15px;
+    }
+
+    .contact-header p {
+        font-size: 12px;
+        letter-spacing: 6px;
+        color: #666;
+        text-transform: uppercase;
+    }
+
+    /* --- LARGE GRID SETUP --- */
+    .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.6fr; /* Form ko zyada space di hai */
+        gap: 80px;
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 40px 5% 100px;
+        align-items: start;
+    }
+
+    /* Left Side: Info Box */
+    .info-box h3 {
+        font-family: 'Cinzel', serif;
+        font-size: 2rem;
+        color: #d4af37;
+        letter-spacing: 4px;
+        margin-bottom: 50px;
+        position: relative;
+    }
+
+    .info-box h3::after {
+        content: '';
+        position: absolute;
+        bottom: -15px; left: 0;
+        width: 60px; height: 1px;
+        background: #d4af37;
+    }
+
+    .info-item {
+        display: flex;
+        gap: 30px;
+        margin-bottom: 45px;
+    }
+
+    .info-item i { color: #d4af37; font-size: 24px; }
+    .info-item h4 { font-size: 13px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 10px; color: #fff; }
+    .info-item p { color: #999; font-size: 15px; line-height: 1.8; margin: 0; }
+
+    /* --- LARGE LUXURY FORM --- */
+    .luxury-form-container {
+        background: #0a0a0a;
+        padding: 70px;
+        border: 1px solid rgba(212, 175, 55, 0.15);
+        box-shadow: 0 40px 80px rgba(0,0,0,0.7);
+    }
+
+    .luxury-form input, .luxury-form textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #222;
+        color: #fff;
+        padding: 20px 5px;
+        margin-bottom: 40px;
+        font-size: 16px;
+        outline: none;
+        transition: 0.4s;
+    }
+
+    .luxury-form input:focus, .luxury-form textarea:focus {
+        border-bottom-color: #d4af37;
+        background: rgba(212, 175, 55, 0.03);
+    }
+
+    .send-btn {
+        width: 100%;
+        background: #d4af37;
+        color: #000;
+        border: none;
+        padding: 22px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 5px;
+        cursor: pointer;
+        transition: 0.5s;
+    }
+
+    .send-btn:hover { background: #fff; letter-spacing: 8px; transform: translateY(-5px); }
+
+    /* --- LUCKNOW MAP --- */
+    .map-section {
+        width: 100%;
+        height: 500px;
+        border-top: 1px solid #1a1a1a;
+    }
+
+    .map-frame {
+        width: 100%;
+        height: 100%;
+        border: none;
+        filter: grayscale(1) invert(1) contrast(1.2) opacity(0.5);
+    }
+
+    /* --- NOTIFICATION ANIMATION --- */
+    @keyframes slideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+
+    @media (max-width: 1024px) {
+        .contact-grid { grid-template-columns: 1fr; gap: 60px; }
+        .luxury-form-container { padding: 40px; }
+    }
+</style>
+
+<div class="contact-page">
+    
+    {% if messages %}
+        <div id="msg-box" style="position: fixed; top: 100px; right: 20px; background: #d4af37; color: #000; padding: 20px 40px; z-index: 9999; font-family: 'Cinzel', serif; letter-spacing: 2px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); animation: slideIn 0.5s ease-out;">
+            {% for message in messages %}
+                <strong>STATUS:</strong> {{ message }}
+            {% endfor %}
+        </div>
+        <script>
+            setTimeout(function() {
+                document.getElementById('msg-box').style.display = 'none';
+            }, 5000);
+        </script>
+    {% endif %}
+
+    <div class="contact-header">
+        <h1>The Concierge</h1>
+        <p>Private Consultations • Lucknow Marine Drive</p>
+    </div>
+
+    <div class="contact-grid">
+        <div class="info-box">
+            <h3>Our Boutique</h3>
+            <div class="info-item">
+                <i class="fas fa-map-marker-alt"></i>
+                <div>
+                    <h4>Lucknow Flagship</h4>
+                    <p>Marine Drive, Jiamau<br>Gomti Nagar, Lucknow, UP 226010</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-phone-alt"></i>
+                <div>
+                    <h4>Concierge Line</h4>
+                    <p>+91 522-CHRONO-LCK</p>
+                </div>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <h4>Direct Inquiries</h4>
+                    <p>concierge.lko@chronocraft.com</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="luxury-form-container">
+            <form method="POST" action="{% url 'contact' %}" class="luxury-form">
+                {% csrf_token %}
+                <input type="text" name="name" placeholder="YOUR FULL NAME" required>
+                <input type="email" name="email" placeholder="EMAIL ADDRESS" required>
+                <input type="text" name="subject" placeholder="SUBJECT OF INQUIRY">
+                <textarea name="message" rows="5" placeholder="HOW CAN WE ASSIST YOU TODAY?" required></textarea>
+                <button type="submit" class="send-btn">Request Private Callback</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="map-section">
+        <iframe class="map-frame" 
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m18!1m12!1m3!1d3559.45862820695!2d80.9634!3d26.85!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399bfd0a80000001%3A0x7d00000000000000!2sMarine%20Drive%2C%20Lucknow!5e0!3m2!1sen!2sin!4v1620000000000" 
+            allowfullscreen="" loading="lazy">
+        </iframe>
+    </div>
+</div>
+
+{% endblock %}

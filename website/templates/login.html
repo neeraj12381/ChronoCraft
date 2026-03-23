@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+
+{% block title %}Chronocraft | Member Login{% endblock %}
+
+{% block content %}
+<style>
+    .auth-container {
+        min-height: 80vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(circle, #1a1a1a 0%, #000 100%);
+        padding: 20px;
+    }
+
+    .auth-card {
+        background: #0a0a0a;
+        width: 100%;
+        max-width: 400px;
+        padding: 50px 40px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+        text-align: center;
+        position: relative;
+    }
+
+    .auth-card::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 25%; width: 50%; height: 2px;
+        background: #d4af37;
+    }
+
+    .auth-card h2 {
+        font-family: 'Cinzel', serif;
+        color: #d4af37;
+        font-size: 26px;
+        letter-spacing: 5px;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+    }
+
+    .subtitle {
+        color: #666;
+        font-size: 11px;
+        letter-spacing: 2px;
+        margin-bottom: 40px;
+        text-transform: uppercase;
+    }
+
+    .auth-form { text-align: left; }
+    
+    .form-row { margin-bottom: 25px; }
+
+    .auth-form label {
+        display: block;
+        color: #888;
+        font-size: 10px;
+        text-transform: uppercase;
+        margin-bottom: 8px;
+        letter-spacing: 1px;
+    }
+
+    /* Django forms input styling */
+    .auth-form input {
+        width: 100%;
+        padding: 14px;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #333;
+        color: #fff;
+        outline: none;
+        box-sizing: border-box;
+        transition: 0.4s;
+    }
+
+    .auth-form input:focus {
+        border-bottom-color: #d4af37;
+        background: rgba(212, 175, 55, 0.05);
+    }
+
+    .login-btn {
+        width: 100%;
+        background: #d4af37;
+        color: #000;
+        border: none;
+        padding: 16px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 3px;
+        cursor: pointer;
+        margin-top: 20px;
+        transition: 0.5s;
+    }
+
+    .login-btn:hover {
+        background: #fff;
+        letter-spacing: 5px;
+    }
+
+    .switch-auth {
+        margin-top: 30px;
+        font-size: 12px;
+        color: #555;
+    }
+
+    .switch-auth a {
+        color: #d4af37;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .errorlist {
+        color: #ff4d4d;
+        font-size: 11px;
+        list-style: none;
+        padding: 0;
+        margin: 5px 0;
+    }
+</style>
+
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Member Login</h2>
+        <p class="subtitle">Access the Inner Circle</p>
+
+        <form method="POST" class="auth-form">
+            {% csrf_token %}
+            {% for field in form %}
+                <div class="form-row">
+                    <label>{{ field.label }}</label>
+                    {{ field }}
+                    {% if field.errors %}
+                        {{ field.errors }}
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="login-btn">Sign In</button>
+        </form>
+
+        <div class="switch-auth">
+            Not a member? <a href="{% url 'signup' %}">Apply Now</a>
+        </div>
+    </div>
+</div>
+
+{% if messages %}
+    <div id="msg-data" style="display:none;">
+        {% for m in messages %}<span class="item">{{ m|escapejs }}</span>{% endfor %}
+    </div>
+    <script>
+        (function() {
+            const msgs = document.querySelectorAll('#msg-data .item');
+            msgs.forEach(m => alert(m.textContent));
+        })();
+    </script>
+{% endif %}
+
+{% endblock %}

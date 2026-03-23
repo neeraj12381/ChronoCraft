@@ -1,0 +1,190 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Chronocraft | Luxury Timepieces{% endblock %}</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Montserrat:wght@300;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --gold: #d4af37;
+            --dark-bg: #0a0a0a;
+            --glass-bg: rgba(10, 10, 10, 0.95);
+        }
+
+        body {
+            margin: 0; padding: 0;
+            background-color: var(--dark-bg);
+            color: #ffffff;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        /* --- LUXURY NAVBAR --- */
+        nav {
+            background: var(--glass-bg);
+            height: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 8%;
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .logo { text-decoration: none; }
+        .logo-text {
+            font-family: 'Cinzel', serif;
+            font-size: 26px;
+            font-weight: 700;
+            letter-spacing: 5px;
+            background: linear-gradient(to right, #bf953f, #fcf6ba, #b38728);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+        }
+
+        .nav-links { display: flex; align-items: center; }
+        .nav-links a {
+            text-decoration: none; color: #fff;
+            font-size: 11px; letter-spacing: 2px;
+            text-transform: uppercase; margin-left: 25px;
+            transition: 0.3s; opacity: 0.7;
+        }
+        .nav-links a:hover { color: var(--gold); opacity: 1; }
+
+        .auth-btn {
+            border: 1px solid var(--gold);
+            padding: 8px 18px;
+            margin-left: 20px;
+            transition: 0.4s !important;
+        }
+        .auth-btn:hover { background: var(--gold); color: #000 !important; }
+
+        .main-content { margin-top: 80px; min-height: 75vh; }
+
+        /* --- LUXURY FOOTER --- */
+        .luxury-footer {
+            background-color: #050505;
+            padding: 80px 8% 40px;
+            border-top: 1px solid rgba(212, 175, 55, 0.2);
+            margin-top: 80px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+
+        .footer-col h3 {
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: 1.1rem;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+            text-transform: uppercase;
+        }
+
+        .footer-col p { color: #888; font-size: 14px; line-height: 1.8; margin: 10px 0; }
+
+        .footer-links { list-style: none; padding: 0; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #888; text-decoration: none; font-size: 13px; transition: 0.3s; }
+        .footer-links a:hover { color: var(--gold); padding-left: 8px; }
+
+        .social-icons { display: flex; gap: 15px; margin-top: 25px; }
+        .social-icons a {
+            color: var(--gold); font-size: 16px;
+            border: 1px solid var(--gold);
+            width: 38px; height: 38px;
+            display: flex; align-items: center; justify-content: center;
+            border-radius: 50%; transition: 0.4s;
+        }
+        .social-icons a:hover { background: var(--gold); color: #000; box-shadow: 0 0 15px var(--gold); }
+
+        .footer-bottom {
+            text-align: center; padding-top: 40px;
+            border-top: 1px solid #1a1a1a;
+            color: #444; font-size: 11px; letter-spacing: 2px;
+        }
+
+        @media (max-width: 992px) {
+            nav { padding: 0 3%; }
+            .nav-links a { margin-left: 10px; font-size: 9px; }
+            .logo-text { font-size: 18px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="{% url 'home' %}" class="logo">
+            <div class="logo-text">CHRONOCRAFT</div>
+        </a>
+        <div class="nav-links">
+            <a href="{% url 'home' %}">Home</a>
+            <a href="{% url 'about' %}">About</a>
+            <a href="{% url 'contact' %}">Contact</a>
+            
+            {% if user.is_authenticated %}
+                <span style="color:var(--gold); font-size:10px; margin-left:20px; letter-spacing:1px;">WELCOME, {{ user.username|upper }}</span>
+                <a href="{% url 'logout' %}" style="color: #ff4d4d; opacity: 1;">Logout</a>
+            {% else %}
+                <a href="{% url 'login' %}">Login</a>
+                <a href="{% url 'signup' %}" class="auth-btn">Join Club</a>
+            {% endif %}
+            
+            <a href="/admin" style="opacity: 0.5; font-size: 9px;">Admin</a>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer class="luxury-footer">
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h3>Our Heritage</h3>
+                <p>Crafting timeless elegance since 2026. Chronocraft is dedicated to the art of horology and the pursuit of perfection for the elite collector.</p>
+                <div class="social-icons">
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>The Boutique</h3>
+                <ul class="footer-links">
+                    <li><a href="{% url 'home' %}">New Collection</a></li>
+                    <li><a href="{% url 'about' %}">Our Story</a></li>
+                    <li><a href="{% url 'maintenance' %}">Watch Maintenance</a></li>
+                    <li><a href="{% url 'privacy' %}">Privacy & Legal</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>Contact Us</h3>
+                <p><i class="fas fa-envelope" style="color:var(--gold); margin-right:12px;"></i> concierge@chronocraft.com</p>
+                <p><i class="fas fa-phone" style="color:var(--gold); margin-right:12px;"></i> +91 98765 43210</p>
+                <p><i class="fas fa-map-marker-alt" style="color:var(--gold); margin-right:12px;"></i> Luxury Avenue, Mumbai, India</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            &copy; 2026 CHRONOCRAFT TIMEPIECES. HANDCRAFTED WITH PRECISION.
+        </div>
+    </footer>
+
+</body>
+</html>
